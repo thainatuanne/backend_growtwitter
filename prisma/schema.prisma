@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// usuário
+model Usuario {
+  id       Int    @id @default(autoincrement())
+  nome     String @unique @db.VarChar(100)
+  email    String @unique @db.VarChar(100)
+  senha    String @db.VarChar(255)
+  username String @unique @db.VarChar(80)
+
+  criadoEm      DateTime @default(now()) @map("criado_em")
+  atuzalizadoEm DateTime @default(now()) @updatedAt @map("atualizado_em")
+
+  // tweet
+  tweets   Tweet[]
+  likes    Like[]
+  seguido  Seguidor[] @relation("seguindo")
+  seguindo Seguidor[] @relation("seguidores")
+
+  @@map("usuarios")
+}
+
+// tweets
+model Tweet {
+  id       Int       @id @default(autoincrement())
+  conteudo String    @db.VarChar(280)
+  tipo     TweetType
+  criadoEm DateTime  @default(now()) @map("criado_em")
+
+  usuarioId Int
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+
+  likes     Like[]
+  replies   Tweet[] @relation("RespostaTweet")
+  replyTo   Tweet?  @relation("RespostaTweet", fields: [replyToId], references: [id])
+  replyToId Int?
+
+  @@map("tweets")
+}
+
+// enum tweet
+enum TweetType {
+  tweet
+  reply
+}
+
+// Likes 
+model Like {
+  id        Int @id @default(autoincrement())
+  usuarioId Int @map("usuario_id")
+  tweetId   Int @map("tweet_id")
+
+  criadoEm     DateTime @default(now()) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @map("atualizado_em")
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  tweet   Tweet   @relation(fields: [tweetId], references: [id])
+
+  @@unique([usuarioId, tweetId])
+  @@map("likes")
+}
+
+// Seguidor
+model Seguidor {
+  id         Int @id @default(autoincrement())
+  usuarioId  Int @map("usuario_id")
+  seguidorId Int @map("seguidor_id")
+
+  criadoEm     DateTime @default(now()) @map("criado_em")
+  atualizadoEm DateTime @default(now()) @updatedAt @map("atualizado_em")
+
+  usuario  Usuario @relation("seguidores", fields: [usuarioId], references: [id])
+  seguidor Usuario @relation("seguindo", fields: [seguidorId], references: [id])
+
+  @@unique([usuarioId, seguidorId])
+  @@map("seguidores")
+}

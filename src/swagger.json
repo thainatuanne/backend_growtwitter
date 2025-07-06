@@ -1,0 +1,43 @@
+{
+    "openapi": "3.0.4",
+    "info": {
+        "title": "Grow Twitter",
+        "version": "1.0",
+        "description": "O GrowTwitter é uma API desenvolvida com Node.js, Express e Prisma ORM, conectada a um banco de dados PostgreSQL. A API implementa uma rede social estilo Twitter, permitindo o gerenciamento de usuários, tweets, likes e autenticação.",
+        "contact": {
+            "name": "Bruninho Volotão",
+            "email": "bruninhovolotao@hotmail.com",
+            "url": "https://github.com/bruninhovolotao/back-end-growtwitter"}
+    },
+    "tags": [
+        {
+            "name": "Tweets",
+            "description": "Rotas para os dados de tweets criados,"
+        },
+        {
+            "name": "Feed",
+            "description": "Rotas para os dados dos tweets no feed do usuário"
+        }   
+    ],
+    "paths": {
+        "/tweets":{
+            "get":{
+                "tags": ["Tweets"],
+                "summary": "Rota pública para listar todos os tweets da API",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "usuarioId",
+                        "required": true,
+                        "schema": { "type": "integer"}
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de tweets carregada com sucesso"
+                    }
+                }
+            }
+        }
+    }
+}

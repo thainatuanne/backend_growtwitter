@@ -1,0 +1,1175 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Grow Twitter",
+    "version": "1.0",
+    "description": "O GrowTwitter é uma API desenvolvida com Node.js, Express e Prisma ORM, conectada a um banco de dados PostgreSQL. A API implementa uma rede social estilo Twitter, permitindo o gerenciamento de usuários, tweets, likes e autenticação.",
+    "contact": {
+      "name": "Bruninho Volotão",
+      "email": "bruninhovolotao@hotmail.com",
+      "url": "https://github.com/bruninhovolotao/back-end-growtwitter"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3030/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Usuários",
+      "description": "Rotas para os dados de usuários criados."
+    },
+    {
+      "name": "Tweets",
+      "description": "Rotas para os dados de tweets criados."
+    }
+  ],
+  "paths": {
+    "/tweets": {
+      "get": {
+        "tags": [
+          "Tweets"
+        ],
+        "summary": "Listar todos os tweets",
+        "description": "Retorna uma lista com todos os tweets públicos cadastrados na plataforma. Inclui informações do autor, quantidade de likes, replies associados e detalhes do usuário.",
+        "responses": {
+          "0": {
+            "description": ""
+          },
+          "1": {
+            "description": ""
+          },
+          "2": {
+            "description": ""
+          },
+          "4": {
+            "description": ""
+          },
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Lista de tweets carregada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaSucesso"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Tweets"
+        ],
+        "summary": "Criar um novo tweet",
+        "description": "Cria um tweet público vinculado a um usuário. É necessário informar o conteúdo do tweet, o tipo (tweet ou reply) e o ID do usuário autor. Retorna o tweet criado com sucesso.",
+        "responses": {
+          "0": {
+            "description": ""
+          },
+          "1": {
+            "description": ""
+          },
+          "2": {
+            "description": ""
+          },
+          "4": {
+            "description": ""
+          },
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Tweet cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaSucesso"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Usuário não autenticado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createTweet"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/createTweet"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tweets/{id}": {
+      "get": {
+        "tags": [
+          "Tweets"
+        ],
+        "summary": "Listar tweets por ID de usuárioRota para cadastro de usuários",
+        "description": "Retorna todos os tweets publicados por um usuário específico, identificado pelo ID. Inclui os dados do autor, replies e número de interações. Se o usuário não tiver tweets ou o ID for inválido, retorna erro 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "0": {
+            "description": ""
+          },
+          "1": {
+            "description": ""
+          },
+          "2": {
+            "description": ""
+          },
+          "4": {
+            "description": ""
+          },
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Lista de tweets carregada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaSucesso"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Nenhum tweet encontrado para o usuário",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Tweets"
+        ],
+        "summary": "Atualizar um tweet",
+        "description": "Atualiza o conteúdo e/ou tipo (tweet ou reply) de um tweet existente. O ID do tweet é informado na URL e os dados a atualizar no corpo da requisição. Se o tweet não for encontrado, retorna erro 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "0": {
+            "description": ""
+          },
+          "1": {
+            "description": ""
+          },
+          "2": {
+            "description": ""
+          },
+          "4": {
+            "description": ""
+          },
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Tweet atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaSucesso"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateTweet"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/updateTweet"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tweets"
+        ],
+        "summary": "Deletar um tweet",
+        "description": "Remove um tweet da plataforma a partir do seu ID. Se o tweet existir, ele é excluído permanentemente. Caso não seja encontrado, a API retorna erro 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "0": {
+            "description": ""
+          },
+          "1": {
+            "description": ""
+          },
+          "2": {
+            "description": ""
+          },
+          "4": {
+            "description": ""
+          },
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Tweet excluído com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaSucesso"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feed": {
+      "get": {
+        "tags": [
+          "Tweets"
+        ],
+        "summary": "Listar feed do usuário",
+        "description": "Retorna uma lista de tweets do próprio usuário e dos usuários que ele segue. Essa rota simula um feed social com ordenação cronológica. Inclui informações do autor, replies e contagem de likes.",
+        "responses": {
+          "0": {
+            "description": ""
+          },
+          "1": {
+            "description": ""
+          },
+          "2": {
+            "description": ""
+          },
+          "4": {
+            "description": ""
+          },
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Feed carregado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaSucesso"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tweets/{id}/reply": {
+      "post": {
+        "tags": [
+          "Tweets"
+        ],
+        "summary": "Responder um tweet existente",
+        "description": "Cria uma resposta (reply) a um tweet já existente, identificado por seu ID. O corpo da requisição deve conter o conteúdo da resposta e o ID do usuário que está respondendo. O tweet original deve existir, caso contrário um erro é retornado.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "0": {
+            "description": ""
+          },
+          "1": {
+            "description": ""
+          },
+          "2": {
+            "description": ""
+          },
+          "4": {
+            "description": ""
+          },
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Resposta criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaSucesso"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Nenhum tweet encontrado para o usuário",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createReply"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/createReply"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sign-up": {
+      "post": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Rota para cadastro de usuários",
+        "description": "Essa rota permite o cadastro de um novo usuário na plataforma. O corpo da requisição deve conter as informações obrigatórias: nome, email, senha e username. A aplicação verifica se o e-mail ou username já estão em uso, e em caso afirmativo retorna um erro de conflito (HTTP 409). Se os dados forem válidos, o usuário é cadastrado com sucesso e seus dados (exceto a senha) são retornados na resposta.",
+        "responses": {
+          "201": {
+            "description": "Usuário cadastrado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaSucesso"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Email ou username já está em uso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createUser"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/createUser"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Rota para login de usuários",
+        "description": "Essa rota realiza o login de um usuário autenticado. O corpo da requisição deve conter emailOuUsername (podendo ser o e-mail ou o nome de usuário) e a senha. A aplicação valida se o usuário existe e se a senha está correta.Se for válido, um token JWT é gerado e retornado junto aos dados públicos do usuário. Caso o e-mail/username não existam, ou a senha esteja incorreta, são retornados erros apropriados (401 ou 402).",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Login realizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaSucesso"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Usuário não encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Senha inválida.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createLogin"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/createLogin"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Rota para listagem de todos os usuários",
+        "description": "Essa rota retorna uma lista de todos os usuários cadastrados na plataforma. Por padrão, ela retorna apenas os dados básicos dos usuários (id, nome, email, username). É possível incluir informações adicionais (como tweets, likes e seguidores) utilizando o parâmetro includeRelations=true na URL. Essa funcionalidade é útil para exibir perfis ou fazer consultas administrativas.",
+        "parameters": [
+          {
+            "name": "completo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de usuários carregada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaSucesso"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Rota para listagem de usuários por ID",
+        "description": "Essa rota permite buscar um único usuário pelo seu ID. Ao enviar um ID válido na URL, a aplicação retorna os dados públicos do usuário correspondente (exceto a senha). Se o ID for inválido ou não houver usuário com aquele ID, a aplicação responde com erro 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário listado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaSucesso"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID inválido.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Rota para atualização de usuários",
+        "description": "Essa rota permite atualizar os dados de um usuário existente. O ID do usuário deve ser passado na URL e os campos a serem atualizados no corpo da requisição (nome, email, senha e/ou username). Todos os campos são opcionais, mas pelo menos um deve ser enviado — caso contrário, a aplicação retorna erro 400. Se o usuário for encontrado e os dados forem válidos, ele é atualizado com sucesso.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "0": {
+            "description": ""
+          },
+          "1": {
+            "description": ""
+          },
+          "2": {
+            "description": ""
+          },
+          "4": {
+            "description": ""
+          },
+          "200": {
+            "description": "Usuário atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaSucesso"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Nenhum campo enviado para atualização.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaFalha"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/updateUser"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/updateUser"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Rota para exclusão de usuários",
+        "description": "Essa rota permite remover um usuário da plataforma informando seu ID na URL. Ao realizar a exclusão, o usuário e todas as suas informações vinculadas (como tweets e seguidores) são apagados do banco de dados. Caso o ID não exista, a aplicação retorna erro 404 informando que o usuário não foi encontrado.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "0": {
+            "description": ""
+          },
+          "1": {
+            "description": ""
+          },
+          "2": {
+            "description": ""
+          },
+          "4": {
+            "description": ""
+          },
+          "200": {
+            "description": "Usuário excluído com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/respostaSucesso"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "respostaSucesso": {
+        "type": "object",
+        "properties": {
+          "sucesso": {
+            "type": "boolean",
+            "example": true
+          },
+          "mensagem": {
+            "type": "string",
+            "example": "Mensagem de sucesso"
+          },
+          "dados": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        "required": [
+          "sucesso",
+          "mensagem",
+          "dados"
+        ],
+        "xml": {
+          "name": "respostaSucesso"
+        }
+      },
+      "respostaFalha": {
+        "type": "object",
+        "properties": {
+          "sucesso": {
+            "type": "boolean",
+            "example": false
+          },
+          "mensagem": {
+            "type": "string",
+            "example": "Mensagem de falha"
+          },
+          "detalhe": {
+            "type": "string",
+            "example": "Mensagem com o erro detalhado"
+          }
+        },
+        "required": [
+          "sucesso",
+          "mensagem"
+        ],
+        "xml": {
+          "name": "respostaFalha"
+        }
+      },
+      "signup": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "nome": {
+            "type": "string",
+            "example": "João"
+          },
+          "email": {
+            "type": "string",
+            "example": "joao@gmail.com"
+          },
+          "senha": {
+            "type": "string",
+            "example": "12345"
+          },
+          "username": {
+            "type": "string",
+            "example": "joao01"
+          },
+          "criadoEm": {
+            "type": "string",
+            "example": "2025-06-21T16:40:28.866Z"
+          },
+          "atualizadoEm": {
+            "type": "string",
+            "example": "2025-06-21T16:40:28.866Z"
+          }
+        },
+        "required": [
+          "id",
+          "nome",
+          "email",
+          "senha",
+          "username"
+        ],
+        "xml": {
+          "name": "signup"
+        }
+      },
+      "login": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzUxMDczMjM1fQ.l7DmXYaAbnuT1CITCeQLliq8x4Xg80lWlf_j4-52oWc"
+          },
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "nome": {
+            "type": "string",
+            "example": "João"
+          },
+          "email": {
+            "type": "string",
+            "example": "joao@gmail.com"
+          },
+          "senha": {
+            "type": "string",
+            "example": "12345"
+          },
+          "username": {
+            "type": "string",
+            "example": "joao01"
+          },
+          "criadoEm": {
+            "type": "string",
+            "example": "2025-06-21T16:40:28.866Z"
+          },
+          "atualizadoEm": {
+            "type": "string",
+            "example": "2025-06-21T16:40:28.866Z"
+          }
+        },
+        "required": [
+          "id",
+          "nome",
+          "email",
+          "senha",
+          "username"
+        ],
+        "xml": {
+          "name": "login"
+        }
+      },
+      "createLogin": {
+        "type": "object",
+        "properties": {
+          "emailOuUsername": {
+            "type": "string",
+            "example": "joao@gmail.com"
+          },
+          "senha": {
+            "type": "string",
+            "example": "12345"
+          }
+        },
+        "required": [
+          "emailOuUsername",
+          "senha"
+        ],
+        "xml": {
+          "name": "createLogin"
+        }
+      },
+      "createUser": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "João"
+          },
+          "email": {
+            "type": "string",
+            "example": "joao@gmail.com"
+          },
+          "senha": {
+            "type": "string",
+            "example": "12345"
+          },
+          "username": {
+            "type": "string",
+            "example": "joao01"
+          }
+        },
+        "required": [
+          "nome",
+          "email",
+          "senha",
+          "username"
+        ],
+        "xml": {
+          "name": "createUser"
+        }
+      },
+      "ListUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "nome": {
+            "type": "string",
+            "example": "João"
+          },
+          "email": {
+            "type": "string",
+            "example": "joao@gmail.com"
+          },
+          "username": {
+            "type": "string",
+            "example": "joao01"
+          },
+          "criadoEm": {
+            "type": "string",
+            "example": "2025-06-21T16:40:28.866Z"
+          },
+          "atuzalizadoEm": {
+            "type": "string",
+            "example": "2025-06-21T16:40:28.866Z"
+          }
+        },
+        "required": [
+          "id",
+          "nome",
+          "email",
+          "username"
+        ],
+        "xml": {
+          "name": "ListUser"
+        }
+      },
+      "ListUserId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "nome": {
+            "type": "string",
+            "example": "João"
+          },
+          "email": {
+            "type": "string",
+            "example": "joao@gmail.com"
+          },
+          "username": {
+            "type": "string",
+            "example": "joao01"
+          },
+          "criadoEm": {
+            "type": "string",
+            "example": "2025-06-21T16:40:28.866Z"
+          },
+          "atuzalizadoEm": {
+            "type": "string",
+            "example": "2025-06-21T16:40:28.866Z"
+          }
+        },
+        "required": [
+          "id",
+          "nome",
+          "email",
+          "username"
+        ],
+        "xml": {
+          "name": "ListUserId"
+        }
+      },
+      "updateUser": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string",
+            "example": "João"
+          },
+          "email": {
+            "type": "string",
+            "example": "joao@gmail.com"
+          },
+          "senha": {
+            "type": "string",
+            "example": "12345"
+          },
+          "username": {
+            "type": "string",
+            "example": "joao01"
+          }
+        },
+        "required": [
+          "nome",
+          "email",
+          "senha",
+          "username"
+        ],
+        "xml": {
+          "name": "updateUser"
+        }
+      },
+      "createTweet": {
+        "type": "object",
+        "properties": {
+          "conteudo": {
+            "type": "string",
+            "example": "Meu primeiro Tweet"
+          },
+          "tipo": {
+            "type": "string",
+            "example": "tweet"
+          },
+          "usuarioId": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "conteudo",
+          "tipo",
+          "usuarioId"
+        ],
+        "xml": {
+          "name": "createTweet"
+        }
+      },
+      "updateTweet": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 4
+          },
+          "conteudo": {
+            "type": "string",
+            "example": "Este é o tweet atualizado"
+          },
+          "tipo": {
+            "type": "string",
+            "example": "tweet"
+          }
+        },
+        "required": [
+          "id",
+          "conteudo",
+          "tipo"
+        ],
+        "xml": {
+          "name": "updateTweet"
+        }
+      },
+      "createReply": {
+        "type": "object",
+        "properties": {
+          "conteudo": {
+            "type": "string",
+            "example": "Este é uma resposta de um tweet!"
+          }
+        },
+        "required": [
+          "conteudo"
+        ],
+        "xml": {
+          "name": "createReply"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "avaliacao-banco-de-dados-2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "dev": "npx ts-node-dev ./src/swagger.ts && npx ts-node-dev --respawn --transpile-only ./src/index.ts",
+    "test": "jest --silent --noStackTrace --runInBand",
+    "test:verbose": "jest --verbose --runInBand --detectOpenHandles",
+    "test:coverage": "jest --runInBand --coverage",
+    "test:watch": "jest --silent --noStackTrace --runInBand --watchAll",
+    "test:unit": "jest -c jest.unit.config.ts --silent --noStackTrace --runInBand",
+    "swagger": "npx ts-node-dev ./src/swagger.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.13.14",
+    "jest": "^30.0.2",
+    "prisma": "^6.11.1",
+    "swagger-autogen": "^2.23.7",
+    "ts-jest": "^29.4.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.11.1",
+    "@types/express": "^5.0.1",
+    "@types/swagger-ui-express": "^4.1.8",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "jest-mock-extended": "^4.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
